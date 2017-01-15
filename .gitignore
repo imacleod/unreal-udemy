@@ -1,0 +1,10 @@
+# Unreal
+**/Binaries
+**/Build
+**/DerivedDataCache
+**/Intermediate
+**/Saved
+**/StarterContent
+
+# Visual Studio
+*.VC.db
