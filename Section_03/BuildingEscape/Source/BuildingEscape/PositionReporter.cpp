@@ -17,8 +17,8 @@ UPositionReporter::UPositionReporter()
 void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UE_LOG(LogTemp, Warning, TEXT("PositionReporter initialized for %s..."), *GetOwner()->GetName());
+	AActor* Owner = GetOwner();
+	UE_LOG(LogTemp, Warning, TEXT("%s is at %s"), *Owner->GetName(), *Owner->GetTransform().GetLocation().ToString());
 }
 
 
