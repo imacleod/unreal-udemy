@@ -18,6 +18,7 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	void CloseDoor();
 	void OpenDoor();
 	
 	// Called every frame
@@ -25,12 +26,18 @@ public:
 
 
 private:
-	UPROPERTY(VisibleAnywhere)
-	float OpenAngle = 90.0f;
+	UPROPERTY(EditAnywhere)
+	float OpenAngle = 60.0f;
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
 
+	UPROPERTY(EditAnywhere)
+	float DoorCloseDelay = 0.5f;
+
+	float LastDoorOpenTime;
+
 	// Pawn inherits from actor
 	AActor* ActorThatOpens;
+	AActor* Owner; // The owning door
 };
