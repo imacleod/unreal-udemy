@@ -25,5 +25,10 @@ private:
 	// Player reach length
 	float PlayerReach = 100.f;
 
-	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	// Components
+	UPhysicsHandleComponent* PhysicsHandleComponent = nullptr;
+	UInputComponent* InputComponent = nullptr;
+	
+	// Line trace out to player reach length and grab
+	void Grab();
 };

@@ -22,13 +22,25 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/// Look for attached PhysicsHandle
-	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle) {
+	/// Confirm required components are attached
+	PhysicsHandleComponent = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (PhysicsHandleComponent) {
 		// Found PhysicsHandle, all good
 	}
 	else {
-		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandle component for %s"), *(GetOwner()->GetName()));
+		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandleComponent for %s"), *(GetOwner()->GetName()));
+	}
+
+	/// InputComponent is attached at runtime
+	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+	if (InputComponent) {
+		UE_LOG(LogTemp, Warning, TEXT("Found InputComponent for %s"), *(GetOwner()->GetName()));
+
+		/// Bind input axis
+		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("Missing InputComponent for %s"), *(GetOwner()->GetName()));
 	}
 }
 
@@ -78,5 +90,10 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	if (ActorHit) {
 		UE_LOG(LogTemp, Warning, TEXT("Actor hit: %s"), *(ActorHit->GetName()));
 	}
+}
+
+void UGrabber::Grab()
+{
+	UE_LOG(LogTemp, Warning, TEXT("'Grab' action fired"));
 }
 
