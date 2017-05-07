@@ -23,15 +23,33 @@ public:
 
 private:
 	// Player reach length
-	float PlayerReach = 100.f;
+	FVector LineTraceEnd;
+	const float PlayerReach = 100.f;
+
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
 
 	// Components
 	UPhysicsHandleComponent* PhysicsHandleComponent = nullptr;
 	UInputComponent* InputComponent = nullptr;
+
+	// Draw line trace for debugging
+	void DrawDebugLineTrace();
+
+	// Return hit for first physics body in reach
+	const FHitResult GetFirstPhysicsBodyInReach();
 	
+	// Find (assumed) attached physics handle component
+	void FindPhysicsHandleComponent();
+
 	// Line trace out to player reach length, grab object
 	void Grab();
 
 	// Release grabbed object
 	void Release();
+
+	// Setup (assumed) attached input component
+	void SetupInputComponent();
+
+	void UpdatePlayerViewPoint();
 };
