@@ -29,6 +29,9 @@ private:
 	UPhysicsHandleComponent* PhysicsHandleComponent = nullptr;
 	UInputComponent* InputComponent = nullptr;
 	
-	// Line trace out to player reach length and grab
+	// Line trace out to player reach length, grab object
 	void Grab();
+
+	// Release grabbed object
+	void Release();
 };
