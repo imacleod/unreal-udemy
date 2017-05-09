@@ -46,7 +46,7 @@ void UGrabber::FindPhysicsHandleComponent()
 {
 	UPhysicsHandleComponent* PhysicsHandleComponent = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (PhysicsHandleComponent) {
-		// Found PhysicsHandle, all good
+		UE_LOG(LogTemp, Warning, TEXT("Found PhysicsHandleComponent for %s"), *(GetOwner()->GetName()));
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandleComponent for %s"), *(GetOwner()->GetName()));
@@ -59,9 +59,9 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
 
 	/// Line trace/ray cast out to reach distance
-	FHitResult Hit;
+	FHitResult HitResult;
 	GetWorld()->LineTraceSingleByObjectType(
-		OUT Hit,
+		OUT HitResult,
 		PlayerViewPointLocation,
 		LineTraceEnd,
 		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
@@ -69,11 +69,11 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 	);
 
 	/// Debug hit detection
-	AActor* ActorHit = Hit.GetActor();
+	AActor* ActorHit = HitResult.GetActor();
 	if (ActorHit) {
 		UE_LOG(LogTemp, Warning, TEXT("Line trace hit: %s"), *(ActorHit->GetName()));
 	}
-	return FHitResult();
+	return HitResult;
 }
 
 void UGrabber::Grab()
