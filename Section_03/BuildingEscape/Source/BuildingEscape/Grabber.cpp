@@ -44,7 +44,7 @@ void UGrabber::DrawDebugLineTrace()
 /// Confirm required components are attached
 void UGrabber::FindPhysicsHandleComponent()
 {
-	UPhysicsHandleComponent* PhysicsHandleComponent = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	PhysicsHandleComponent = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (PhysicsHandleComponent) {
 		UE_LOG(LogTemp, Warning, TEXT("Found PhysicsHandleComponent for %s"), *(GetOwner()->GetName()));
 	}
@@ -81,14 +81,25 @@ void UGrabber::Grab()
 	UE_LOG(LogTemp, Warning, TEXT("UGrabber grab"));
 
 	/// Attempt line trace to reach actors with physics body collision channel set
-	GetFirstPhysicsBodyInReach();
+	auto HitResult = GetFirstPhysicsBodyInReach();
+	auto ComponentToGrab = HitResult.GetComponent();
+	auto ActorHit = HitResult.GetActor();
 
 	/// On successful hit attach physics handle
+	if (ActorHit) {
+		PhysicsHandleComponent->GrabComponent(
+			ComponentToGrab,
+			NAME_None,
+			ComponentToGrab->GetOwner()->GetActorLocation(),
+			true
+		);
+	}
 }
 
 void UGrabber::Release()
 {
 	UE_LOG(LogTemp, Warning, TEXT("UGrabber release"));
+	PhysicsHandleComponent->ReleaseComponent();
 }
 
 /// InputComponent is attached at runtime
@@ -116,6 +127,9 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 
 	LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * PlayerReach);
 
+	if (PhysicsHandleComponent->GrabbedComponent) {
+		PhysicsHandleComponent->SetTargetLocation(LineTraceEnd);
+	}
 }
 
 void UGrabber::UpdatePlayerViewPoint()
