@@ -71,18 +71,13 @@ const FHitResult UGrabber::GetFirstPhysicsBodyInReach()
 
 	/// Debug hit detection
 	AActor* ActorHit = HitResult.GetActor();
-	if (ActorHit)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Line trace hit: %s"), *(ActorHit->GetName()));
-	}
+	if (ActorHit) UE_LOG(LogTemp, Warning, TEXT("Line trace hit: %s"), *(ActorHit->GetName()));
 	return HitResult;
 }
 
 
 void UGrabber::Grab()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UGrabber grab"));
-
 	/// Attempt line trace to reach actors with physics body collision channel set
 	auto HitResult = GetFirstPhysicsBodyInReach();
 	auto ComponentToGrab = HitResult.GetComponent();
@@ -103,7 +98,6 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UGrabber release"));
 	PhysicsHandleComponent->ReleaseComponent();
 }
 
