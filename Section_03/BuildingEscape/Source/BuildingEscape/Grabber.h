@@ -21,10 +21,11 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+
 private:
 	// Player reach length
 	FVector LineTraceEnd;
-	const float PlayerReach = 100.f;
+	const float PLAYER_REACH = 100.f;
 
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
