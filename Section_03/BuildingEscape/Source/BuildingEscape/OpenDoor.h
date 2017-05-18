@@ -27,17 +27,22 @@ public:
 
 private:
 	UPROPERTY(EditAnywhere)
+	float DoorCloseDelay = 0.5f;
+
+	UPROPERTY(EditAnywhere)
 	float OpenAngle = 60.0f;
 
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)
-	float DoorCloseDelay = 0.5f;
+	float PressurePlateMassRequired = 50.f;
+
+	// Return total mass in kg
+	float GetTotalMassOfActorsOnPressurePlate();
 
 	float LastDoorOpenTime;
 
 	// Pawn inherits from actor
-	AActor* ActorThatOpens;
 	AActor* Owner; // The owning door
 };

@@ -17,15 +17,20 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
 	Owner = GetOwner();
-	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 
 void UOpenDoor::CloseDoor()
 {
 	Owner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+}
+
+
+float UOpenDoor::GetTotalMassOfActorsOnPressurePlate()
+{
+	float TotalMass = 0.f;
+	return TotalMass;
 }
 
 
@@ -40,8 +45,9 @@ void UOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompo
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
-	// Poll trigger volume, if ActorThatOpens intersects then open door
-	if (PressurePlate->IsOverlappingActor(ActorThatOpens)) {
+	// Poll trigger volume
+	if (GetTotalMassOfActorsOnPressurePlate() > PressurePlateMassRequired)
+	{
 		OpenDoor();
 		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
 	}
