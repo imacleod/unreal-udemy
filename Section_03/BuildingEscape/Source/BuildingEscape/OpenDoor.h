@@ -36,9 +36,9 @@ private:
 	ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)
-	float PressurePlateMassRequired = 50.f;
+	float PressurePlateMassRequired = 30.f;
 
-	// Return total mass in kg
+	// Return total mass in Kg
 	float GetTotalMassOfActorsOnPressurePlate();
 
 	float LastDoorOpenTime;
