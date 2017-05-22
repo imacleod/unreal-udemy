@@ -47,7 +47,7 @@ void UGrabber::DrawDebugLineTrace()
 void UGrabber::FindPhysicsHandleComponent()
 {
 	PhysicsHandleComponent = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandleComponent == nullptr)
+	if (!PhysicsHandleComponent)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Missing PhysicsHandleComponent for %s"), *(GetOwner()->GetName()));
 	}
@@ -86,6 +86,7 @@ void UGrabber::Grab()
 	/// On successful hit attach physics handle
 	if (ActorHit)
 	{
+		if (!PhysicsHandleComponent) { return; }
 		PhysicsHandleComponent->GrabComponent(
 			ComponentToGrab,
 			NAME_None,
@@ -98,6 +99,7 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
+	if (!PhysicsHandleComponent) { return; }
 	PhysicsHandleComponent->ReleaseComponent();
 }
 
@@ -126,6 +128,7 @@ void UGrabber::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	UpdatePlayerViewPoint();
 	LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * PLAYER_REACH);
 
+	if (!PhysicsHandleComponent) { return; }
 	if (PhysicsHandleComponent->GrabbedComponent)
 	{
 		PhysicsHandleComponent->SetTargetLocation(LineTraceEnd);
