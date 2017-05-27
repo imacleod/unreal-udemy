@@ -5,7 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "OpenDoor.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnOpenRequest);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorRequest);
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -20,24 +20,17 @@ public:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	void CloseDoor();
+	UPROPERTY(BlueprintAssignable)
+	FDoorRequest OnClose;
 
 	UPROPERTY(BlueprintAssignable)
-	FOnOpenRequest OnOpenRequest;
+	FDoorRequest OnOpen;
 
-	void OpenDoor();
-	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 
 private:
-	UPROPERTY(EditAnywhere)
-	float DoorCloseDelay = 0.5f;
-
-	/*UPROPERTY(EditAnywhere)
-	float OpenAngle = 60.0f;*/
-
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate = nullptr;
 
@@ -46,8 +39,6 @@ private:
 
 	// Return total mass in Kg
 	float GetTotalMassOfActorsOnPressurePlate();
-
-	float LastDoorOpenTime;
 
 	// The owning door (pawn inherits from actor)
 	AActor* Owner = nullptr;
