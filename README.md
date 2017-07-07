@@ -1,4 +1,4 @@
-# Udemy - Unreal Engine Developer Course #
+# Unreal Engine 4 Developer Course - Udemy #
 
 
-Exercises and code from the Udemy "The Unreal Engine Developer Course - Learn C++ & Make Games" course at https://www.udemy.com/unrealcourse/.
+Exercises and code from "The Unreal Engine Developer Course" at https://www.udemy.com/unrealcourse/.
