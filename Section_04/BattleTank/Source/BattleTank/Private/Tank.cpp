@@ -19,13 +19,6 @@ void ATank::BeginPlay()
 	
 }
 
-// Called every frame
-void ATank::Tick( float DeltaTime )
-{
-	Super::Tick( DeltaTime );
-
-}
-
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
@@ -33,3 +26,9 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 }
 
+// Called every frame
+void ATank::Tick( float DeltaTime )
+{
+	Super::Tick( DeltaTime );
+
+}
