@@ -70,3 +70,7 @@ SourceArt/**/*.tga
 
 # Misc
 *.swp
+
+
+# Custom
+**/WindowsNoEditor/*
