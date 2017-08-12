@@ -17,6 +17,8 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 private:
 	/// Move tank barrel towards crosshair
 	virtual void AimTowardsCrosshair();
+
+	virtual bool GetSightRayHitLocation( FVector& OutHitLocation ) const;
 	
 public:
 	virtual void BeginPlay() override;
