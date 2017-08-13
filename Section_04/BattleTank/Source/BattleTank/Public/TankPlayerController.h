@@ -30,7 +30,7 @@ private:
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const;
 
-	virtual bool GetSightRayHitLocation( FVector& OutHitLocation ) const;
+	virtual bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000;
@@ -38,5 +38,5 @@ private:
 public:
 	virtual void BeginPlay() override;
 
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 };

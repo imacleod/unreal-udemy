@@ -10,8 +10,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector OutHitLocation;
 	if (GetSightRayHitLocation(OutHitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Look direction: %s"), *OutHitLocation.ToString());
-		// If linetrace hits landscape tell controlled tank to aim at this point
+		GetControlledTank()->AimAt(OutHitLocation);
 	}
 }
 
@@ -82,8 +81,8 @@ bool ATankPlayerController::GetSightRayHitLocation( FVector& OutHitLocation ) co
 	return true;
 }
 
-void ATankPlayerController::Tick( float DeltaSeconds )
+void ATankPlayerController::Tick(float DeltaSeconds)
 {
-	Super::Tick( DeltaSeconds );
+	Super::Tick(DeltaSeconds);
 	AimTowardsCrosshair();
 }
