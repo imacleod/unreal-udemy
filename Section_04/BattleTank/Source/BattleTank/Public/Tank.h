@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
 
@@ -23,6 +24,9 @@ private:
 
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
+
+protected:
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
 public:
 	void AimAt(FVector HitLocation);
