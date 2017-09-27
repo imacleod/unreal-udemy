@@ -5,9 +5,11 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
-class UTankBarrel;  // forward declaration, useful when only reference to class is needed and not calling methods
 
+// Forward declaration, useful when only reference to class is needed and not calling methods
+class UTankBarrel;
 
+// Holds barrel's properties
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
