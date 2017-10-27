@@ -3,9 +3,10 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
-#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
+// Forward declarations
+class UTankAimingComponent;
 class UTankBarrel;
 
 

@@ -6,7 +6,7 @@
 #include "TankAimingComponent.generated.h"
 
 
-// Forward declaration, useful when only reference to class is needed and not calling methods
+// Forward declaration, useful when reference to class is needed but not for inheritance or calling methods
 class UTankBarrel;
 
 // Holds barrel's properties
