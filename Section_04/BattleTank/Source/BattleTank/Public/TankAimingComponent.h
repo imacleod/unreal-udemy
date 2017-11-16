@@ -8,6 +8,7 @@
 
 // Forward declaration, useful when reference to class is needed but not for inheritance or calling methods
 class UTankBarrel;
+class UTankTurret;
 
 // Holds barrel's properties
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -17,6 +18,7 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 
 private:
 	UTankBarrel* Barrel = nullptr;
+	UTankTurret* Turret = nullptr;
 
 	void MoveBarrelTowards(FVector AimDirection);
 
@@ -27,4 +29,6 @@ public:
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	void SetTurretReference(UTankTurret* TurretToSet);
 };
