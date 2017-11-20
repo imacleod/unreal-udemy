@@ -6,6 +6,7 @@
 #include "Tank.generated.h"
 
 // Forward declarations
+class AProjectile;
 class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
@@ -20,11 +21,17 @@ private:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	// Local barrel reference for spawning projectiles (lesson 150)
+	UTankBarrel* Barrel = nullptr;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
