@@ -23,7 +23,6 @@ void AProjectile::BeginPlay()
 
 void AProjectile::LaunchProjectile(float Speed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("  LaunchProjectile at %f"), Speed);
 	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovementComponent->Activate();
 }
@@ -34,4 +33,3 @@ void AProjectile::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 }
-
