@@ -17,6 +17,9 @@ class BATTLETANK_API ATankAIController : public AAIController
 	GENERATED_BODY()
 
 private:
+	// AI tank stops within AcceptanceRadius cm of player
+	float AcceptanceRadius = 3000;
+
 	virtual void BeginPlay() override;
 	
 	virtual void Tick(float DeltaSeconds) override;

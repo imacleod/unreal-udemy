@@ -26,3 +26,11 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	RightTrack->SetThrottle(-Throw);
 	// TODO: prevent doubled speed from multiple controller inputs
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+{
+	// Override engine method for use in AI pathfinding
+	auto MoveVelocityStr = MoveVelocity.ToString();
+	auto TankName = GetOwner()->GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s RequestDirectMove: %s"), *TankName, *MoveVelocityStr);
+}
