@@ -30,8 +30,11 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	// Override engine method for use in AI pathfinding
-	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
-	auto TankForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	FVector AIForwardIntention = MoveVelocity.GetSafeNormal();
+	FVector TankForwardVector = GetOwner()->GetActorForwardVector().GetSafeNormal();
+
 	float ForwardThrowRequired = FVector::DotProduct(AIForwardIntention, TankForwardVector);
+	FVector RightThrowRequired = FVector::CrossProduct(AIForwardIntention, TankForwardVector);
 	IntendMoveForward(ForwardThrowRequired);
+	IntendTurnRight(RightThrowRequired.Z);
 }
