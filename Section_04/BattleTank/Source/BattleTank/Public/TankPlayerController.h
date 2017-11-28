@@ -26,8 +26,6 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float CrosshairYLocation = 0.33333;
 
-	ATank* GetControlledTank() const;
-
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const;
@@ -37,6 +35,10 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
 	
+protected:
+	UFUNCTION(BlueprintCallable, Category="Setup")
+	ATank* GetControlledTank() const;
+
 public:
 	virtual void BeginPlay() override;
 

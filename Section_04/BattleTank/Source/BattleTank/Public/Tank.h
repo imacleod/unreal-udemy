@@ -43,6 +43,7 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 protected:
+	UPROPERTY(BlueprintReadOnly, Category="Input")
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category="Input")
