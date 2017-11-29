@@ -23,7 +23,7 @@ private:
 	ATank();
 
 	// Local barrel reference for spawning projectiles (lesson 150)
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr; // TODO: remove after finishing aiming component refactor
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -39,9 +39,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Firing")
 	float ReloadTimeInSeconds = 3;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
 protected:
 	UPROPERTY(BlueprintReadOnly, Category="Input")
 	UTankAimingComponent* TankAimingComponent = nullptr;
@@ -54,10 +51,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="Firing")
 	void Fire();
-
-	UFUNCTION(BlueprintCallable, Category="Setup")
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category="Setup")
-	void SetTurretReference(UTankTurret* TurretToSet);
 };
