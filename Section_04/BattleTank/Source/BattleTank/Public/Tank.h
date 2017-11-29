@@ -9,7 +9,6 @@
 class AProjectile;
 class UTankAimingComponent;
 class UTankBarrel;
-class UTankMovementComponent;
 class UTankTurret;
 
 
@@ -42,9 +41,6 @@ private:
 protected:
 	UPROPERTY(BlueprintReadOnly, Category="Input")
 	UTankAimingComponent* TankAimingComponent = nullptr;
-
-	UPROPERTY(BlueprintReadOnly, Category="Input")
-	UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:
 	void AimAt(FVector HitLocation);
