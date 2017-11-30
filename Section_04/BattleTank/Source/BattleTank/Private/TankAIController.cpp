@@ -1,7 +1,7 @@
 
 #include "BattleTank.h"
-#include "Tank.h"
 #include "TankAIController.h"
+#include "TankAimingComponent.h"
 
 // Currently depends on movement component via pathfinding system
 
@@ -14,16 +14,18 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	ATank* ControlledTank = Cast<ATank>(GetPawn());
-	ATank* PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	APawn* ControlledTank = GetPawn();
+	APawn* PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 
-	if (ensure(PlayerTank))
-	{
-		// Move towards player
-		MoveToActor(PlayerTank, AcceptanceRadius);
+	if (!ensure(ControlledTank && PlayerTank)) { return; }
 
-		// Aim towards player, fire
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		ControlledTank->Fire();
-	}
+	// Move towards player
+	MoveToActor(PlayerTank, AcceptanceRadius);
+
+	// Aim towards player, fire
+	UTankAimingComponent* AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
+
+	// TODO: fix firing after aiming component refactor
+	//GetPawn()->Fire();
 }

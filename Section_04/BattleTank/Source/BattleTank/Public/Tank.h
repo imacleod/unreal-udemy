@@ -7,7 +7,6 @@
 
 // Forward declarations
 class AProjectile;
-class UTankAimingComponent;
 class UTankBarrel;
 class UTankTurret;
 
@@ -39,13 +38,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Firing")
 	float ReloadTimeInSeconds = 3;
 
-protected:
-	UPROPERTY(BlueprintReadOnly, Category="Input")
-	UTankAimingComponent* TankAimingComponent = nullptr;
-
 public:
-	void AimAt(FVector HitLocation);
-
 	UFUNCTION(BlueprintCallable, Category="Firing")
 	void Fire();
 };
