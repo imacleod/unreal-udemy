@@ -4,6 +4,11 @@
 #include "TankTrack.h"
 
 
+UTankTrack::UTankTrack()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+}
+
 void UTankTrack::SetThrottle(float Throttle)
 {
 	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
@@ -12,4 +17,16 @@ void UTankTrack::SetThrottle(float Throttle)
 	// Primitive component allows for force application
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
+}
+
+void UTankTrack::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	// Correct tank sideways slippage speed
+	float SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
+	FVector CurrentAcceleration = SlippageSpeed / DeltaTime * GetRightVector(); // acceleration is meters per second squared
+	FVector CorrectionAcceleration = -CurrentAcceleration;
+
+	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent()); // need mass from static mesh component
+	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration) / 2; // force = mass * acceleration, two tank tracks
+	TankRoot->AddForce(CorrectionForce);
 }
