@@ -25,7 +25,5 @@ void ATankAIController::Tick(float DeltaTime)
 	// Aim towards player, fire
 	UTankAimingComponent* AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-
-	// TODO: fix firing after aiming component refactor
-	//GetPawn()->Fire();
+	AimingComponent->Fire();
 }

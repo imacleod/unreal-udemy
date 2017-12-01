@@ -14,6 +14,7 @@ enum class EFiringState : uint8
 };
 
 // Forward declaration, useful when reference to class is needed but not for inheritance or calling methods
+class AProjectile;
 class UTankBarrel;
 class UTankTurret;
 
@@ -29,10 +30,18 @@ private:
 
 	UTankBarrel* Barrel = nullptr;
 
+	double LastFireTime = 0;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
 
 	void MoveBarrelTowards(FVector AimDirection);
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category="Firing")
+	float ReloadTimeInSeconds = 3;
 
 	UTankTurret* Turret = nullptr;
 
@@ -42,6 +51,9 @@ protected:
 
 public:	
 	void AimAt(FVector HitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
 
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
