@@ -28,9 +28,13 @@ private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	FVector AimDirection;
+
 	UTankBarrel* Barrel = nullptr;
 
 	virtual void BeginPlay() override;
+
+	bool IsBarrelMoving();
 
 	double LastFireTime = 0;
 
