@@ -46,6 +46,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 void UTankAimingComponent::Fire()
 {
+	if (!ensure(Barrel && ProjectileBlueprint)) { return; }
 
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
 	if (IsReloaded)
