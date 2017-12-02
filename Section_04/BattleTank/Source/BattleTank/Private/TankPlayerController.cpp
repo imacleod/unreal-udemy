@@ -65,10 +65,10 @@ bool ATankPlayerController::GetSightRayHitLocation( FVector& OutHitLocation ) co
 	if (GetLookDirection(ScreenLocation, OutLookDirection))
 	{
 		// Linetrace along that look direction, check for hit up to max range
-		GetLookVectorHitLocation(OutLookDirection, OutHitLocation);
+		return GetLookVectorHitLocation(OutLookDirection, OutHitLocation);
 	}
 
-	return true;
+	return false;
 }
 
 void ATankPlayerController::Tick(float DeltaSeconds)
