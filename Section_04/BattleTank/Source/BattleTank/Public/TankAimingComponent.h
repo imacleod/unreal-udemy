@@ -10,7 +10,7 @@
 UENUM()
 enum class EFiringState : uint8
 {
-	Aiming, Locked, Reloading
+	Aiming, Locked, OutOfAmmo, Reloading
 };
 
 // Forward declaration, useful when reference to class is needed but not for inheritance or calling methods
@@ -49,6 +49,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Firing")
 	float ReloadTimeInSeconds = 3;
 
+	int RoundsLeft = 3;
+
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	UTankTurret* Turret = nullptr;
@@ -64,6 +66,9 @@ public:
 	void Fire();
 
 	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category="Firing")
+	int GetRoundsLeft() const;
 
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
