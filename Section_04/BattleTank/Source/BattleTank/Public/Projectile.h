@@ -6,16 +6,19 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Projectile.generated.h"
 
-// Forward declarations
-class UProjectileMovementComponent;
-
 
 UCLASS()
 class BATTLETANK_API AProjectile : public AActor
 {
 	GENERATED_BODY()
 
-protected:
+private:
+	UPROPERTY(VisibleAnywhere, Category="Components")
+	UStaticMeshComponent* CollisionMeshComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category="Components")
+	UParticleSystemComponent* LaunchBlastComponent = nullptr;
+
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 
 public:	

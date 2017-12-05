@@ -49,7 +49,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Firing")
 	float ReloadTimeInSeconds = 3;
 
-	int RoundsLeft = 3;
+	UPROPERTY(EditDefaultsOnly, Category="Firing")
+	int32 RoundsLeft = 3;
 
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
@@ -68,7 +69,7 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category="Firing")
-	int GetRoundsLeft() const;
+	int32 GetRoundsLeft() const;
 
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
