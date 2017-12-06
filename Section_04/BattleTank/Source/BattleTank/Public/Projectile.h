@@ -17,7 +17,13 @@ private:
 	UStaticMeshComponent* CollisionMeshComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category="Components")
+	UParticleSystemComponent* ImpactBlastComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere, Category="Components")
 	UParticleSystemComponent* LaunchBlastComponent = nullptr;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 
@@ -29,7 +35,4 @@ public:
 	virtual void BeginPlay() override;
 
 	void LaunchProjectile(float Speed);
-
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
 };

@@ -8,7 +8,7 @@
 AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	CollisionMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh Component"));
 	SetRootComponent(CollisionMeshComponent);
@@ -16,8 +16,12 @@ AProjectile::AProjectile()
 	CollisionMeshComponent->SetNotifyRigidBodyCollision(true); // generates hit events and will be inherited by subclasses
 	CollisionMeshComponent->SetVisibility(false);
 
+	ImpactBlastComponent = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast Component"));
+	ImpactBlastComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	ImpactBlastComponent->bAutoActivate = false;
+
 	LaunchBlastComponent = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast Component"));
-	LaunchBlastComponent->AttachTo(RootComponent);
+	LaunchBlastComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Movement Component"));
 	ProjectileMovementComponent->bAutoActivate = false;
@@ -27,7 +31,8 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	// Add OnHit event via code instead of blueprint
+	CollisionMeshComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
 void AProjectile::LaunchProjectile(float Speed)
@@ -36,9 +41,8 @@ void AProjectile::LaunchProjectile(float Speed)
 	ProjectileMovementComponent->Activate();
 }
 
-// Called every frame
-void AProjectile::Tick( float DeltaTime )
+void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	Super::Tick( DeltaTime );
-
+	ImpactBlastComponent->Activate();
+	LaunchBlastComponent->Deactivate();
 }
