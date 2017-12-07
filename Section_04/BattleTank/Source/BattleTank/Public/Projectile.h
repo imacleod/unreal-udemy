@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "GameFramework/Actor.h"
@@ -19,7 +17,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	float DestroyDelay = 3;
 
-	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UPROPERTY(VisibleAnywhere, Category="Components")
 	URadialForceComponent* ExplosionForceComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category="Components")
@@ -32,6 +30,9 @@ private:
 	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 	void OnTimerExpire();
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	float ProjectileDamage = 20;
 
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 

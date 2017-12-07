@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "BattleTank.h"
 #include "Projectile.h"
 
@@ -14,7 +12,6 @@ AProjectile::AProjectile()
 	SetRootComponent(CollisionMeshComponent);
 	// Set defaults
 	CollisionMeshComponent->SetNotifyRigidBodyCollision(true); // generates hit events and will be inherited by subclasses
-	CollisionMeshComponent->SetVisibility(false);
 
 	ExplosionForceComponent = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force Component"));
 	ExplosionForceComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
@@ -38,12 +35,6 @@ void AProjectile::BeginPlay()
 	CollisionMeshComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
-void AProjectile::OnTimerExpire()
-{
-	// Destroy current projectile
-	Destroy();
-}
-
 void AProjectile::LaunchProjectile(float Speed)
 {
 	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
@@ -61,4 +52,19 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	CollisionMeshComponent->DestroyComponent();
 	FTimerHandle TimerHandle;
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AProjectile::OnTimerExpire, DestroyDelay);
+
+	UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionForceComponent->Radius,
+		UDamageType::StaticClass(),
+		TArray<AActor*>() // Damage all actors
+	);
+}
+
+void AProjectile::OnTimerExpire()
+{
+	// Destroy current projectile
+	Destroy();
 }
