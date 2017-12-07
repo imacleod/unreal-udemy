@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include "AIController.h"
@@ -15,6 +14,11 @@ class BATTLETANK_API ATankAIController : public AAIController
 
 private:
 	virtual void BeginPlay() override;
+
+	UFUNCTION() // Must be UFUNCTION to be called
+	void OnPossessedTankDeath();
+
+	virtual void SetPawn(APawn* InPawn) override;
 	
 	virtual void Tick(float DeltaSeconds) override;
 
