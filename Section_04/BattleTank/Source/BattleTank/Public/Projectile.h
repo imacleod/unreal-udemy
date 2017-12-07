@@ -16,6 +16,9 @@ private:
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	UStaticMeshComponent* CollisionMeshComponent = nullptr;
 
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	URadialForceComponent* ExplosionForceComponent = nullptr;
+
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	UParticleSystemComponent* ImpactBlastComponent = nullptr;
 

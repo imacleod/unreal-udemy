@@ -16,6 +16,9 @@ AProjectile::AProjectile()
 	CollisionMeshComponent->SetNotifyRigidBodyCollision(true); // generates hit events and will be inherited by subclasses
 	CollisionMeshComponent->SetVisibility(false);
 
+	ExplosionForceComponent = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force Component"));
+	ExplosionForceComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
 	ImpactBlastComponent = CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast Component"));
 	ImpactBlastComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlastComponent->bAutoActivate = false;
@@ -45,4 +48,5 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	ImpactBlastComponent->Activate();
 	LaunchBlastComponent->Deactivate();
+	ExplosionForceComponent->FireImpulse();
 }
