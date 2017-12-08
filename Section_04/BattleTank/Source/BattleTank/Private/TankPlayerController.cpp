@@ -1,4 +1,5 @@
 #include "BattleTank.h"
+#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "TankPlayerController.h"
 
@@ -68,6 +69,24 @@ bool ATankPlayerController::GetSightRayHitLocation( FVector& OutHitLocation ) co
 	}
 
 	return false;
+}
+
+void ATankPlayerController::OnDeath()
+{
+	StartSpectatingOnly();
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		ATank* PlayerTank = Cast<ATank>(InPawn);
+		if (!ensure(PlayerTank)) { return; }
+
+		// Subscribe to tank's death event
+		PlayerTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnDeath);
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaSeconds)

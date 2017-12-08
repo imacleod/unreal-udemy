@@ -15,11 +15,13 @@ private:
 	// Sets default values for this pawn's properties
 	ATank();
 
-	UPROPERTY(EditDefaultsOnly, Category="Setup")
-	int32 HealthMax = 100;
+	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, Category="Health")
-	int32 HealthCurrent = HealthMax;
+	int32 HealthCurrent;
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	int32 HealthMax = 100;
 
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	int32 HealthMin = 0;

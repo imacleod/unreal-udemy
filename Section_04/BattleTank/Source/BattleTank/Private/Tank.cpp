@@ -9,6 +9,12 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	HealthCurrent = HealthMax; // Set after constructor and blueprint initialization
+}
+
 float ATank::GetHealthPercent() const
 {
 	return float(HealthCurrent) / float(HealthMax);

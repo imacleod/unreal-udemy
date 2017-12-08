@@ -33,10 +33,15 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;
+
+	virtual void SetPawn(APawn* InPawn) override;
 	
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category="Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimingComponent);
+
+	UFUNCTION() // Must be UFUNCTION to be called
+	void OnDeath();
 
 public:
 	virtual void BeginPlay() override;
