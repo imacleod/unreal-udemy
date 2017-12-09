@@ -22,7 +22,7 @@ void ATankAIController::SetPawn(APawn * InPawn)
 	if (InPawn)
 	{
 		ATank* PossessedTank = Cast<ATank>(InPawn);
-		if (!ensure(PossessedTank)) { return; }
+		if (!PossessedTank) { return; }
 
 		// Subscribe to tank's death event
 		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
@@ -39,12 +39,41 @@ void ATankAIController::Tick(float DeltaTime)
 
 	// Move towards player
 	MoveToActor(PlayerTank, AcceptanceRadius);
+	UpdateViewPoint();
 
-	// Aim towards player, fire if locked on
+	// Aim towards player, fire if player is visible and locked on
 	UTankAimingComponent* AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-	if (AimingComponent->GetFiringState() == EFiringState::Locked)
+
+	if (bIsPlayerVisible(AimingComponent) && AimingComponent->GetFiringState() == EFiringState::Locked)
 	{
 		AimingComponent->Fire();
 	}
+}
+
+bool ATankAIController::bIsPlayerVisible(UTankAimingComponent* AimingComponent)
+{
+	FVector LineTraceEnd = PossessedTankLocation + (AimingComponent->GetAimDirection() * LineTraceRange);
+	FHitResult HitResult;
+	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetPawn()); // Ignore possessed tank
+
+	if (GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		PossessedTankLocation,
+		LineTraceEnd,
+		ECollisionChannel::ECC_Pawn,
+		TraceParams)
+		)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void ATankAIController::UpdateViewPoint()
+{
+	this->GetPlayerViewPoint(PossessedTankLocation, PossessedTankRotation);
 }

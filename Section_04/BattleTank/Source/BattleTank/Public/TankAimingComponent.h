@@ -64,6 +64,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Firing")
 	void Fire();
 
+	FVector GetAimDirection() const;
+
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category="Firing")

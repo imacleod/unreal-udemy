@@ -36,9 +36,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	if (bHaveAimSolution)
 	{
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
-		auto TankName = GetOwner()->GetName();
 		MoveBarrelTowards(AimDirection);
-		auto Time = GetWorld()->GetTimeSeconds();
 	}
 }
 
@@ -65,6 +63,11 @@ void UTankAimingComponent::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 		RoundsLeft--;
 	}
+}
+
+FVector UTankAimingComponent::GetAimDirection() const
+{
+	return AimDirection;
 }
 
 EFiringState UTankAimingComponent::GetFiringState() const
