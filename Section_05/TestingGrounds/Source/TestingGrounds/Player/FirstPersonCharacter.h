@@ -3,7 +3,9 @@
 #include "GameFramework/Character.h"
 #include "FirstPersonCharacter.generated.h"
 
+class AGun;
 class UInputComponent;
+
 
 UCLASS(config=Game)
 class AFirstPersonCharacter : public ACharacter
@@ -33,6 +35,10 @@ class AFirstPersonCharacter : public ACharacter
 	/** Motion controller (left hand) */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	class UMotionControllerComponent* L_MotionController;
+
+private:
+	AGun* Gun;
+
 public:
 	AFirstPersonCharacter();
 
@@ -45,6 +51,9 @@ public:
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	TSubclassOf<AGun> GunBlueprint;
 
 	/** Gun muzzle's offset from the characters location */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
