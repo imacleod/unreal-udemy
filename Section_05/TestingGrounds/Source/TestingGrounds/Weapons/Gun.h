@@ -17,10 +17,6 @@ class TESTINGGROUNDS_API AGun : public AActor
 	UPROPERTY(VisibleDefaultsOnly, Category=Mesh)
 	class USceneComponent* FP_MuzzleLocation;
 
-protected:
-	// Fires a projectile
-	void OnFire();
-	
 public:	
 	// Sets default values for this actor's properties
 	AGun();
@@ -39,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	class USoundBase* FireSound;
 
+	// Fires a projectile
+	void OnFire();
+	
 	/** Projectile class to spawn */
 	UPROPERTY(EditDefaultsOnly, Category=Projectile)
 	TSubclassOf<class ABallProjectile> ProjectileClass;
