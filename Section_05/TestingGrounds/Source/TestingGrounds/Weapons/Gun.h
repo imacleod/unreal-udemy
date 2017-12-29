@@ -36,6 +36,7 @@ public:
 	class USoundBase* FireSound;
 
 	// Fires a projectile
+	UFUNCTION(BlueprintCallable, Category="Setup")
 	void OnFire();
 	
 	/** Projectile class to spawn */
