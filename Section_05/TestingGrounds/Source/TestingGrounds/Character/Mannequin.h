@@ -32,7 +32,7 @@ public:
 	AMannequin();
 
 	UFUNCTION(BlueprintCallable, Category="Weapon")
-	void Fire();
+	void PullTrigger();
 
 	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	TSubclassOf<class AGun> GunBlueprint;
