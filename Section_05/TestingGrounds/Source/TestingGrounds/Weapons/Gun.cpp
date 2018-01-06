@@ -15,7 +15,7 @@ AGun::AGun()
 	FP_Gun->bCastDynamicShadow = false;
 	FP_Gun->CastShadow = false;
 	// FP_Gun->SetupAttachment(Mesh1P, TEXT("GripPoint"));
-	FP_Gun->SetupAttachment(RootComponent);
+	//FP_Gun->SetupAttachment(RootComponent);
 
 	FP_MuzzleLocation = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
 	FP_MuzzleLocation->SetupAttachment(FP_Gun);
@@ -32,10 +32,10 @@ void AGun::BeginPlay()
 void AGun::OnFire()
 {
 	// try and fire a projectile
-	if (ProjectileClass != NULL)
+	if (ProjectileClass != nullptr)
 	{
 		UWorld* const World = GetWorld();
-		if (World != NULL)
+		if (World != nullptr)
 		{
 			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
 			const FVector SpawnLocation = FP_MuzzleLocation->GetComponentLocation();
@@ -52,25 +52,27 @@ void AGun::OnFire()
 	}
 
 	// try and play the sound if specified
-	if (FireSound != NULL)
+	if (FireSound != nullptr)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}
 
 	// try and play a firing animation if specified
-	if (FireAnimation != NULL)
+	if (FireAnimation1P != nullptr && AnimInstance1P != nullptr)
 	{
 		// Get the animation object for the arms mesh
-		if (AnimInstance != NULL)
-		{
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
+		AnimInstance1P->Montage_Play(FireAnimation1P, 1.f);
+	}
+
+	if (FireAnimation3P != nullptr && AnimInstance3P != nullptr)
+	{
+		// Get the animation object for the arms mesh
+		AnimInstance3P->Montage_Play(FireAnimation3P, 1.f);
 	}
 }
 
 // Called every frame
-void AGun::Tick( float DeltaTime )
+void AGun::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
-
+	Super::Tick(DeltaTime);
 }

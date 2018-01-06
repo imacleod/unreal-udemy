@@ -21,15 +21,21 @@ public:
 	// Sets default values for this actor's properties
 	AGun();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	UAnimInstance* AnimInstance;
+	UPROPERTY()
+	UAnimInstance* AnimInstance1P;
+
+	UPROPERTY()
+	UAnimInstance* AnimInstance3P;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	/** AnimMontage to play each time we fire */
+	/** AnimMontages to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
-	class UAnimMontage* FireAnimation;
+	class UAnimMontage* FireAnimation1P;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
+	class UAnimMontage* FireAnimation3P;
 
 	/** Sound to play each time we fire */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)

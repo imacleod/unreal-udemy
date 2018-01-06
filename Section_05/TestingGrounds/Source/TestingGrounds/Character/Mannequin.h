@@ -42,4 +42,7 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
+
+	// Handle gun position on death
+	virtual void UnPossessed() override;
 };
