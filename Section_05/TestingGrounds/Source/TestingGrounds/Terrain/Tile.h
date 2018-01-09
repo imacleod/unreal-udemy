@@ -13,8 +13,8 @@ public:
 	ATile();
 
 	// Randomly generate and place level/tile props
-	UFUNCTION(BlueprintCallable, Category="Weapon")
-	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn=1, int MaxSpawn=1, float Radius=500);
+	UFUNCTION(BlueprintCallable, Category="Setup")
+	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn=1, int MaxSpawn=1, float Radius=500, float MinScale=1, float MaxScale=1);
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -24,7 +24,7 @@ private:
 
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 
-	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint);
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Scale);
 
 protected:
 	// Called when the game starts or when spawned

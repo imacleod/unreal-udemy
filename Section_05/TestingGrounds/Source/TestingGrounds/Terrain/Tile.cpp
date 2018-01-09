@@ -31,9 +31,6 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 		FCollisionShape::MakeSphere(Radius)
 	);
 
-	FColor ColorResult = HasHit ? FColor::Red : FColor::Green;
-	DrawDebugCapsule(GetWorld(), GlobalLocation, 0, Radius, FQuat::Identity, ColorResult, true, 100);
-
 	return !HasHit;
 }
 
@@ -60,24 +57,30 @@ bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 	return false;
 }
 
-void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint)
+// Place actor at location, randomizing rotation and scale
+void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Scale)
 {
 	AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
 	Spawned->SetActorRelativeLocation(SpawnPoint);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));  // Don't weld when simulating physics
+
+	float RandomRotation = FMath::RandRange(-180.f, 180.f);
+	Spawned->SetActorRotation(FRotator(0, RandomRotation, 0));
+	Spawned->SetActorScale3D(FVector(Scale));
 }
 
-void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius)
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	int32 NumSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
 	for (size_t i = 0; i < NumSpawn; i++)
 	{
 		FVector SpawnPoint;
-		bool ValidLocation = FindEmptyLocation(SpawnPoint, Radius);
+		float RandomScale = FMath::RandRange(MinScale, MaxScale);
+		bool ValidLocation = FindEmptyLocation(SpawnPoint, Radius * RandomScale);
 
 		if (ValidLocation)
 		{
-			PlaceActor(ToSpawn, SpawnPoint);
+			PlaceActor(ToSpawn, SpawnPoint, RandomScale);
 		}
 	}
 }
