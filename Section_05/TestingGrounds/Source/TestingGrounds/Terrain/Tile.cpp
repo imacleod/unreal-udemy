@@ -27,12 +27,12 @@ bool ATile::CastSphere(FVector Location, float Radius)
 		Location,
 		Location,
 		FQuat::Identity,
-		ECollisionChannel::ECC_Camera,
+		ECollisionChannel::ECC_GameTraceChannel2,  // Our "Spawn" custom trace channel, determined in DefaultEngine.ini
 		FCollisionShape::MakeSphere(Radius)
 	);
 
 	FColor ColorResult = HasHit ? FColor::Red : FColor::Green;
-	DrawDebugSphere(GetWorld(), Location, Radius, 16, ColorResult, true, 100);
+	DrawDebugCapsule(GetWorld(), Location, 0, Radius, FQuat::Identity, ColorResult, true, 100);
 
 	return HasHit;
 }
