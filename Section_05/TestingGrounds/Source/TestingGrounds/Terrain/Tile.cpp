@@ -1,6 +1,8 @@
 #include "TestingGrounds.h"
 #include "Tile.h"
 
+#include "DrawDebugHelpers.h"
+
 
 // Sets default values
 ATile::ATile()
@@ -13,6 +15,26 @@ ATile::ATile()
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
+	CastSphere(GetActorLocation(), 300);
+	CastSphere(GetActorLocation() + FVector(0, 0, 1000), 300);
+}
+
+bool ATile::CastSphere(FVector Location, float Radius)
+{
+	FHitResult HitResult;
+	bool HasHit = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		Location,
+		Location,
+		FQuat::Identity,
+		ECollisionChannel::ECC_Camera,
+		FCollisionShape::MakeSphere(Radius)
+	);
+
+	FColor ColorResult = HasHit ? FColor::Red : FColor::Green;
+	DrawDebugSphere(GetWorld(), Location, Radius, 16, ColorResult, true, 100);
+
+	return HasHit;
 }
 
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn)
@@ -22,7 +44,7 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn)
 	FVector Max(4000, 2000, 0);
 	FBox Bounds(Min, Max);
 
-	int NumSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
+	int32 NumSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
 	for (size_t i = 0; i < NumSpawn; i++)
 	{
 		FVector SpawnPoint = FMath::RandPointInBox(Bounds);
