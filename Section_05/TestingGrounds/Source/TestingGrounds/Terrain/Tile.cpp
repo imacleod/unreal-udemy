@@ -1,5 +1,6 @@
 #include "TestingGrounds.h"
 #include "Tile.h"
+#include "ActorPool.h"
 
 
 // Sets default values
@@ -81,6 +82,11 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 			PlaceActor(ToSpawn, SpawnPoint, RandomScale);
 		}
 	}
+}
+
+void ATile::SetPool(UActorPool* ActorPool)
+{
+	Pool = ActorPool;
 }
 
 // Called every frame
