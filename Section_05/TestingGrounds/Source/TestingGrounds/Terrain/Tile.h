@@ -11,6 +11,25 @@ class TESTINGGROUNDS_API ATile : public AActor
 {
 	GENERATED_BODY()
 	
+private:
+	bool CanSpawnAtLocation(FVector Location, float Radius);
+
+	bool FindEmptyLocation(FVector& OutLocation, float Radius);
+
+	AActor* NavMeshBoundsVolume;
+
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Scale);
+
+	UActorPool* Pool;
+
+	void PositionNavMeshBoundsVolume();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 public:	
 	// Sets default values for this actor's properties
 	ATile();
@@ -24,17 +43,4 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-private:
-	bool CanSpawnAtLocation(FVector Location, float Radius);
-
-	bool FindEmptyLocation(FVector& OutLocation, float Radius);
-
-	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Scale);
-
-	UActorPool* Pool;
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 };

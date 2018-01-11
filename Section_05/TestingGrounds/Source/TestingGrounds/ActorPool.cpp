@@ -10,15 +10,28 @@ UActorPool::UActorPool()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UActorPool::Add(AActor * ActorToAdd)
+void UActorPool::Add(AActor* ActorToAdd)
 {
+	// Same behavior as Return
+	if (ActorToAdd == nullptr)
+	{
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%s - Add() %s"), *GetName(), *ActorToAdd->GetName());
+	Return(ActorToAdd);
 }
 
-AActor * UActorPool::Checkout()
+AActor* UActorPool::Checkout()
 {
+	UE_LOG(LogTemp, Warning, TEXT("%s - Checkout()"), *GetName());
 	return nullptr;
 }
 
-void UActorPool::Return(AActor * ActorToReturn)
+void UActorPool::Return(AActor* ActorToReturn)
 {
+	if (ActorToReturn == nullptr)
+	{
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%s - Return() %s"), *GetName(), *ActorToReturn->GetName());
 }
