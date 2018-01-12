@@ -30,11 +30,14 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	UPROPERTY(EditDefaultsOnly, Category="Navigation")
 	FVector MinSpawnExtent;
 
-	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	UPROPERTY(EditDefaultsOnly, Category="Navigation")
 	FVector MaxSpawnExtent;
+
+	UPROPERTY(EditDefaultsOnly, Category="Navigation")
+	FVector NavigationBoundsOffset;
 
 public:	
 	// Sets default values for this actor's properties

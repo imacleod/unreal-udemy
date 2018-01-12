@@ -16,7 +16,7 @@ void AInfiniteTerrainGameMode::AddToPool(ANavMeshBoundsVolume *VolumeToAdd)
 	NavMeshBoundsVolumePool->Add(VolumeToAdd);
 }
 
-void AInfiniteTerrainGameMode::PopulateBoundsVolumePool()
+void AInfiniteTerrainGameMode::PopulateNavMeshVolumePool()
 {
 	auto VolumeIterator = TActorIterator<ANavMeshBoundsVolume>(GetWorld());
 	while (VolumeIterator)

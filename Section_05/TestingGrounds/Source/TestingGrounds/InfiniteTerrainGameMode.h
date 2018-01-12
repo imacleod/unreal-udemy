@@ -23,5 +23,5 @@ public:
 	AInfiniteTerrainGameMode();
 
 	UFUNCTION(BlueprintCallable, Category="Pool")
-	void PopulateBoundsVolumePool();
+	void PopulateNavMeshVolumePool();
 };

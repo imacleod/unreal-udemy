@@ -10,6 +10,7 @@ ATile::ATile()
 	PrimaryActorTick.bCanEverTick = true;
 	MaxSpawnExtent = FVector(4000, 2000, 0);
 	MinSpawnExtent = FVector(0, -2000, 0);
+	NavigationBoundsOffset = FVector(2000, 0, 0);
 }
 
 // Called when the game starts or when spawned
@@ -96,7 +97,8 @@ void ATile::PositionNavMeshBoundsVolume()
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("%s checked out %s"), *GetName(), *NavMeshBoundsVolume->GetName());
-	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
+	GetWorld()->GetNavigationSystem()->Build();
 }
 
 void ATile::SetPool(UActorPool* ActorPool)
