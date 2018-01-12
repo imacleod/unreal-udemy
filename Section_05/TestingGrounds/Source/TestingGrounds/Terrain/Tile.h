@@ -5,6 +5,16 @@
 
 class UActorPool;
 
+USTRUCT()
+struct FSpawnPosition
+{
+	GENERATED_USTRUCT_BODY()
+
+	FVector Location;
+	float Rotation;
+	float Scale;
+};
+
 
 UCLASS()
 class TESTINGGROUNDS_API ATile : public AActor
@@ -18,11 +28,13 @@ private:
 
 	AActor* NavMeshBoundsVolume;
 
-	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Scale);
+	void PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition);
 
 	UActorPool* Pool;
 
 	void PositionNavMeshBoundsVolume();
+
+	TArray<FSpawnPosition> RandomSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale);
 
 protected:
 	// Called when the game starts or when spawned
