@@ -30,6 +30,12 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	FVector MinSpawnExtent;
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	FVector MaxSpawnExtent;
+
 public:	
 	// Sets default values for this actor's properties
 	ATile();

@@ -8,6 +8,8 @@ ATile::ATile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	MaxSpawnExtent = FVector(4000, 2000, 0);
+	MinSpawnExtent = FVector(0, -2000, 0);
 }
 
 // Called when the game starts or when spawned
@@ -42,11 +44,7 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 {
 	const int MAX_ATTEMPTS = 100;
-
-	// Assuming 4000 x 4000 tile with origin in center of rear barrier
-	FVector Min(0, -2000, 0);
-	FVector Max(4000, 2000, 0);
-	FBox Bounds(Min, Max);
+	FBox Bounds(MinSpawnExtent, MaxSpawnExtent);
 
 	for (size_t i = 0; i < MAX_ATTEMPTS; i++)
 	{
@@ -94,9 +92,10 @@ void ATile::PositionNavMeshBoundsVolume()
 	NavMeshBoundsVolume = Pool->Checkout();
 	if (NavMeshBoundsVolume == nullptr)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s has null nav mesh bounds volume!"), *GetName());
+		UE_LOG(LogTemp, Error, TEXT("%s - not enough actors in pool!"), *GetName());
 		return;
 	}
+	UE_LOG(LogTemp, Warning, TEXT("%s checked out %s"), *GetName(), *NavMeshBoundsVolume->GetName());
 	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
 }
 

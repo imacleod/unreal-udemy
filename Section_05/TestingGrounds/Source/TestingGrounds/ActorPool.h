@@ -9,6 +9,9 @@ class TESTINGGROUNDS_API UActorPool : public UActorComponent
 {
 	GENERATED_BODY()
 
+private:
+	TArray<AActor*> Pool;
+
 public:	
 	// Sets default values for this component's properties
 	UActorPool();
