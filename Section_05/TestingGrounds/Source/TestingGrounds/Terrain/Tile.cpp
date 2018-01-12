@@ -79,6 +79,25 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 	}
 }
 
+void ATile::PlaceAIPawn(TSubclassOf<APawn> ToSpawn, const FSpawnPosition& SpawnPosition)
+{
+	APawn* SpawnedAI = GetWorld()->SpawnActor<APawn>(ToSpawn);
+	SpawnedAI->SetActorRelativeLocation(SpawnPosition.Location);
+	SpawnedAI->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));  // Don't weld when simulating physics
+	SpawnedAI->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+	SpawnedAI->SpawnDefaultController();
+	SpawnedAI->Tags.Add(FName("Enemy"));
+}
+
+void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int MinSpawn, int MaxSpawn, float Radius)
+{
+	TArray<FSpawnPosition> SpawnPositions = RandomSpawnPositions(MinSpawn, MaxSpawn, Radius, 1.f, 1.f);
+	for (FSpawnPosition SpawnPosition : SpawnPositions)
+	{
+		PlaceAIPawn(ToSpawn, SpawnPosition);
+	}
+}
+
 void ATile::PositionNavMeshBoundsVolume()
 {
 	NavMeshBoundsVolume = Pool->Checkout();

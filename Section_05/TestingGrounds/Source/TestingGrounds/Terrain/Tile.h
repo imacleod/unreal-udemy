@@ -30,6 +30,8 @@ private:
 
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition);
 
+	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, const FSpawnPosition& SpawnPosition);
+
 	UActorPool* Pool;
 
 	void PositionNavMeshBoundsVolume();
@@ -58,6 +60,10 @@ public:
 	// Randomly generate and place level/tile props
 	UFUNCTION(BlueprintCallable, Category="Setup")
 	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn=1, int MaxSpawn=1, float Radius=500, float MinScale=1, float MaxScale=1);
+
+	// Randomly generate and place AI
+	UFUNCTION(BlueprintCallable, Category="Setup")
+	void PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int MinSpawn=1, int MaxSpawn=1, float Radius=500);
 
 	UFUNCTION(BlueprintCallable, Category="Pool")
 	void SetPool(UActorPool* ActorPool);
