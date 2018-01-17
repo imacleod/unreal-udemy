@@ -115,7 +115,6 @@ void ATile::PositionNavMeshBoundsVolume()
 		UE_LOG(LogTemp, Error, TEXT("%s - not enough actors in pool!"), *GetName());
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%s checked out %s"), *GetName(), *NavMeshBoundsVolume->GetName());
 	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
 	GetWorld()->GetNavigationSystem()->Build();
 }
