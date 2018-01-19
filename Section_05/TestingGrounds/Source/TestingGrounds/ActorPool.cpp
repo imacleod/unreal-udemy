@@ -12,6 +12,7 @@ UActorPool::UActorPool()
 
 void UActorPool::Add(AActor* ActorToAdd)
 {
+	if (ActorToAdd == nullptr) { return; }
 	Pool.Push(ActorToAdd);
 }
 
@@ -27,5 +28,6 @@ AActor* UActorPool::Checkout()
 void UActorPool::Return(AActor* ActorToReturn)
 {
 	// Same behavior as Add 
+	if (ActorToReturn == nullptr) { return; }
 	Add(ActorToReturn);
 }

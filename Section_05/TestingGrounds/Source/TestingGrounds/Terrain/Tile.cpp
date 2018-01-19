@@ -21,6 +21,7 @@ void ATile::BeginPlay()
 
 void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	if (Pool == nullptr || NavMeshBoundsVolume == nullptr) { return; }
 	Pool->Return(NavMeshBoundsVolume);
 }
 
@@ -64,7 +65,7 @@ bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition)
 {
 	AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
-	if (!Spawned) { return; }
+	if (Spawned == nullptr) { return; }
 	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));  // Don't weld when simulating physics
 	Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
@@ -73,11 +74,10 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnP
 
 void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, const FSpawnPosition& SpawnPosition)
 {
-	APawn* SpawnedAI = GetWorld()->SpawnActor<APawn>(ToSpawn);
-	if (!SpawnedAI) { return; }
-	SpawnedAI->SetActorRelativeLocation(SpawnPosition.Location);
+	FRotator Rotation = FRotator(0, SpawnPosition.Rotation, 0);
+	APawn* SpawnedAI = GetWorld()->SpawnActor<APawn>(ToSpawn, SpawnPosition.Location, Rotation);
+	if (SpawnedAI == nullptr) { return; }
 	SpawnedAI->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));  // Don't weld when simulating physics
-	SpawnedAI->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 	SpawnedAI->SpawnDefaultController();
 	SpawnedAI->Tags.Add(FName("Enemy"));
 }
@@ -86,14 +86,18 @@ void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, const FSpawnPosition& SpawnPo
 template<class ActorType>
 void ATile::RandomlyPlaceActors(TSubclassOf<ActorType> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
-	FSpawnPosition SpawnPosition;
-	SpawnPosition.Scale = FMath::RandRange(MinScale, MaxScale);
-	bool ValidLocation = FindEmptyLocation(SpawnPosition.Location, Radius * SpawnPosition.Scale);
-
-	if (ValidLocation)
+	int SpawnCount = FMath::RandRange(MinSpawn, MaxSpawn);
+	for (size_t i = 0; i < SpawnCount; i++)
 	{
-		SpawnPosition.Rotation = FMath::RandRange(-180.f, 180.f);
-		PlaceActor(ToSpawn, SpawnPosition);
+		FSpawnPosition SpawnPosition;
+		SpawnPosition.Scale = FMath::RandRange(MinScale, MaxScale);
+		bool ValidLocation = FindEmptyLocation(SpawnPosition.Location, Radius * SpawnPosition.Scale);
+
+		if (ValidLocation)
+		{
+			SpawnPosition.Rotation = FMath::RandRange(-180.f, 180.f);
+			PlaceActor(ToSpawn, SpawnPosition);
+		}
 	}
 }
 
@@ -122,7 +126,6 @@ void ATile::PositionNavMeshBoundsVolume()
 void ATile::SetPool(UActorPool* ActorPool)
 {
 	Pool = ActorPool;
-
 	PositionNavMeshBoundsVolume();
 }
 
